@@ -4,9 +4,13 @@
               ))
 
 
+(def guest-user {:id nil, :name "Guest (you)"})
+
 (def avatar (atom nil))
 (def username (atom nil))
 (def guest-username (atom nil))
+(def user (atom guest-user))
+(def users (atom [guest-user]))
 (def chat-messages (atom []))
 (def chat-message (atom nil))
 
@@ -71,6 +75,17 @@
     ]
   )
 
+(defn render-user
+  [params]
+  [:div (get params :name)])
+
+(defn render-user-list
+  []
+  [:div {:class "descriptive details"}
+    [:ul
+      (doall (for [u @users] ^{:key u}
+        [:li [render-user u]]))]])
+
 (defn submit-username
   [params]
 
@@ -103,7 +118,7 @@
   [:div {:class "grid"}
     [:div {:class "four columns"}
       [:div
-        "Sidebar"]]
+        [render-user-list]]]
     [:div {:class "two columns"}
       (render-messages)
       (if
