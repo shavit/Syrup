@@ -17,6 +17,13 @@
 (def chat-messages (atom []))
 (def chat-message (atom nil))
 
+(defn date-format
+  [params]
+
+  (nth (clojure.string/split
+    (js/Date (get params :created))
+    "GMT") 0))
+
 (defn i-key
   [params]
   (str (count @username) (count (get params :body)) (count @chat-messages)))
@@ -32,7 +39,8 @@
       chat-messages
         conj {:id (i-key params),
           :from @username,
-          :body @chat-message}))
+          :body @chat-message,
+          :created (.now js/Date)}))
 
   (reset! chat-message ""))
 
@@ -49,8 +57,11 @@
   [:div
     [:span
       [:img {:src guest-avatar}]]
-    [:strong (str @username ": ")]
-    [:span (get params :body)]])
+    [:span
+      [:strong @username]
+      [:small (str " " (date-format params))]]
+    [:div
+      (get params :body)]])
 
 (defn render-messages
   []
