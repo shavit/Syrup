@@ -6,7 +6,8 @@
 (def socket (atom nil))
 
 ; socket = new WebSocket("ws://localhost:4001/socket/websocket")
-; msg = {topic: "", event: "", payload: {body: ""}}
+; msg = {topic: "", event: "", ref: "", payload: {body: "Hi"}}
+; socket.send(JSON.stringify({topic: "chat", event: "phx_join", ref: "", payload: {body: "Hi"}}))
 
 (defn create
   []
