@@ -9,6 +9,10 @@
 (def chat-messages (atom []))
 (def chat-message (atom nil))
 
+(defn i-key
+  [params]
+  (str (count @username) (count (get params :body)) (count @chat-messages)))
+
 (defn submit-message
   [params]
 
@@ -18,7 +22,9 @@
     nil
     (swap!
       chat-messages
-        conj @chat-message))
+        conj {:id (i-key params),
+          :from @username,
+          :body @chat-message}))
 
   (reset! chat-message ""))
 
@@ -31,16 +37,17 @@
 
 (defn render-message
   [params]
+
   [:div
     [:strong (str @username ": ")]
-    [:span params]])
+    [:span (get params :body)]])
 
 (defn render-messages
   []
 
   [:div
-    (for [m @chat-messages] ^{:key m}
-      (render-message m))])
+    (doall (for [m @chat-messages] ^{:key (get m :id)}
+      [render-message m]))])
 
 ; #(+ % 1) expands into (fn [a] (+ a 1))
 (defn message-box
@@ -48,7 +55,7 @@
   [:div
     [:form {:on-submit submit-message}
       [:input {:type "text",
-        :value params, :on-change set-chat-message}]]
+        :value params, :on-change set-chat-message, :max-length 140}]]
     ]
   )
 
@@ -72,7 +79,8 @@
   [:div
     [:form {:on-submit submit-username}
       [:input {:type "text", :value params,
-        :placeholder "Choose a username", :on-change set-guest-username}]]
+        :placeholder "Choose a username", :on-change set-guest-username,
+        :max-length 12}]]
     ]
   )
 
