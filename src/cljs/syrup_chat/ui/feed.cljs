@@ -39,6 +39,8 @@
   [params]
 
   [:div
+    [:span
+      [:img {:src ""}]]
     [:strong (str @username ": ")]
     [:span (get params :body)]])
 
