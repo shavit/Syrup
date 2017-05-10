@@ -16,6 +16,7 @@
 
 (defn get-avatar
   []
+
   (str
     "https://github.com/shavit/Syrup/blob/master/resources/public/img/avatar-"
     (rand-int 9)
@@ -74,10 +75,8 @@
   [params]
 
   (.preventDefault params)
-
-  (reset!
-    avatar
-    get-avatar)
+  (get-avatar)
+  ; (reset! avatar get-avatar)
   (reset!
     username
       @guest-username))
