@@ -4,6 +4,7 @@
               ))
 
 
+(def avatar (atom nil))
 (def username (atom nil))
 (def guest-username (atom nil))
 (def chat-messages (atom []))
@@ -12,6 +13,14 @@
 (defn i-key
   [params]
   (str (count @username) (count (get params :body)) (count @chat-messages)))
+
+(defn get-avatar
+  []
+  (str
+    "https://github.com/shavit/Syrup/blob/master/resources/public/img/avatar-"
+    (rand-int 9)
+    ".jpg?raw=true")
+  )
 
 (defn submit-message
   [params]
@@ -40,7 +49,7 @@
 
   [:div
     [:span
-      [:img {:src ""}]]
+      [:img {:src @avatar}]]
     [:strong (str @username ": ")]
     [:span (get params :body)]])
 
@@ -65,6 +74,10 @@
   [params]
 
   (.preventDefault params)
+
+  (reset!
+    avatar
+    get-avatar)
   (reset!
     username
       @guest-username))
