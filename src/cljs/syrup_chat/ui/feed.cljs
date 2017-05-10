@@ -75,8 +75,7 @@
   [params]
 
   (.preventDefault params)
-  (get-avatar)
-  ; (reset! avatar get-avatar)
+  (reset! avatar (get-avatar))
   (reset!
     username
       @guest-username))
