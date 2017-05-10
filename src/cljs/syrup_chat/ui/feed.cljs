@@ -10,10 +10,23 @@
   ".jpg?raw=true"))
 (def guest-user {:id nil, :name "Guest (you)", :avatar guest-avatar})
 
+(def user-2 {:id 2, :name "User 2", :avatar (str
+  "https://github.com/shavit/Syrup/blob/master/resources/public/img/avatar-"
+  (rand-int 9)
+  ".jpg?raw=true")})
+(def user-3 {:id 3, :name "User 3", :avatar (str
+  "https://github.com/shavit/Syrup/blob/master/resources/public/img/avatar-"
+  (rand-int 9)
+  ".jpg?raw=true")})
+(def user-4 {:id 4, :name "User 4", :avatar (str
+  "https://github.com/shavit/Syrup/blob/master/resources/public/img/avatar-"
+  (rand-int 9)
+  ".jpg?raw=true")})
+
 (def username (atom nil))
 (def guest-username (atom nil))
 (def user (atom guest-user))
-(def users (atom [guest-user]))
+(def users (atom [guest-user, user-2, user-3, user-4]))
 (def chat-messages (atom []))
 (def chat-message (atom nil))
 
@@ -21,7 +34,8 @@
   [params]
 
   (nth (clojure.string/split
-    (js/Date (get params :created))
+    (js/Date
+      (get params :created))
     "GMT") 0))
 
 (defn i-key
@@ -54,26 +68,26 @@
 (defn render-message
   [params]
 
-  [:div
-    [:span
+  [:div {:class "chat-message"}
+    [:span {:class "avatar"}
       [:img {:src guest-avatar}]]
     [:span
-      [:strong @username]
-      [:small (str " " (date-format params))]]
+      [:strong {:class "name"} @username]
+      [:span {:class "datetime"} (str " " (date-format params))]]
     [:div
       (get params :body)]])
 
 (defn render-messages
   []
 
-  [:div
+  [:div {:class "messages-list"}
     (doall (for [m @chat-messages] ^{:key (get m :id)}
       [render-message m]))])
 
 ; #(+ % 1) expands into (fn [a] (+ a 1))
 (defn message-box
   [params]
-  [:div
+  [:div {:class "message-box"}
     [:form {:on-submit submit-message}
       [:input {:type "text",
         :value params, :on-change set-chat-message, :max-length 140}]]
@@ -83,7 +97,7 @@
 (defn render-user
   [params]
   [:div
-    [:span
+    [:span {:class "avatar"}
       [:img {:src guest-avatar}]]
     [:strong (get params :name)]
     ])
@@ -91,9 +105,11 @@
 (defn render-user-list
   []
   [:div {:class "descriptive details"}
-    [:ul
-      (doall (for [u @users] ^{:key u}
-        [:li [render-user u]]))]])
+    [:div {:class "user-list"}
+      [:ul
+        (doall (for [u @users]
+          ^{:key (str (count (get u :name)) (get u :id) (get u :name))}
+          [:li [render-user u]]))]]])
 
 (defn submit-username
   [params]
@@ -113,7 +129,7 @@
 
 (defn login-box
   [params]
-  [:div
+  [:div {:class "message-box"}
     [:form {:on-submit submit-username}
       [:input {:type "text", :value params,
         :placeholder "Choose a username", :on-change set-guest-username,
@@ -128,10 +144,11 @@
     [:div {:class "four columns"}
       [:div
         [render-user-list]]]
-    [:div {:class "two columns"}
-      (render-messages)
-      (if
-        (nil? @username)
-        [login-box @guest-username]
-        [message-box @chat-message])]
+    [:div {:class "eight columns"}
+      [:div {:class "messages-feed"}
+        (render-messages)
+        (if
+          (nil? @username)
+          [login-box @guest-username]
+          [message-box @chat-message])]]
   ])

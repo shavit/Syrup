@@ -3,6 +3,7 @@
               [reagent.session :as session]
               [secretary.core :as secretary :include-macros true]
               [accountant.core :as accountant]
+              [syrup-chat.socket :as socket]
               [syrup-chat.ui.feed :as feed]))
 
 ;; -------------------------
@@ -38,6 +39,7 @@
   (reagent/render [current-page] (.getElementById js/document "app")))
 
 (defn init! []
+  (socket/create)
   (accountant/configure-navigation!
     {:nav-handler
      (fn [path]
