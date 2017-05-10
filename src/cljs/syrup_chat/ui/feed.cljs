@@ -79,7 +79,6 @@
 (defn view
   [params]
   [:div {:class "grid"}
-    [:div "messages here"]
     (render-messages)
     (if
       (nil? @username)
