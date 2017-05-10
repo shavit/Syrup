@@ -99,6 +99,7 @@
 
 (defn view
   [params]
+
   [:div {:class "grid"}
     (render-messages)
     (if
