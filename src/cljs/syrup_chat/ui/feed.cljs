@@ -101,9 +101,13 @@
   [params]
 
   [:div {:class "grid"}
-    (render-messages)
-    (if
-      (nil? @username)
-      [login-box @guest-username]
-      [message-box @chat-message])
+    [:div {:class "four columns"}
+      [:div
+        "Sidebar"]]
+    [:div {:class "two columns"}
+      (render-messages)
+      (if
+        (nil? @username)
+        [login-box @guest-username]
+        [message-box @chat-message])]
   ])
