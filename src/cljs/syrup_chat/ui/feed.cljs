@@ -4,6 +4,8 @@
               ))
 
 
+(def username (atom nil))
+(def guest-username (atom nil))
 (def chat-messages (atom []))
 (def chat-message (atom nil))
 
@@ -12,9 +14,11 @@
 
   (.preventDefault params)
 
-  (swap!
-    chat-messages
-      conj @chat-message)
+  (if (nil? @username)
+    nil
+    (swap!
+      chat-messages
+        conj @chat-message))
 
   (reset! chat-message ""))
 
@@ -28,7 +32,7 @@
 (defn render-message
   [params]
   [:div
-    [:strong "Me: "]
+    [:strong (str @username ": ")]
     [:span params]])
 
 (defn render-messages
@@ -48,10 +52,37 @@
     ]
   )
 
+(defn submit-username
+  [params]
+
+  (.preventDefault params)
+  (reset!
+    username
+      @guest-username))
+
+(defn set-guest-username
+  [params]
+
+  (reset!
+    guest-username
+      (-> params .-target .-value)))
+
+(defn login-box
+  [params]
+  [:div
+    [:form {:on-submit submit-username}
+      [:input {:type "text", :value params,
+        :placeholder "Choose a username", :on-change set-guest-username}]]
+    ]
+  )
+
 (defn view
   [params]
   [:div {:class "grid"}
     [:div "messages here"]
     (render-messages)
-    [message-box @chat-message]
+    (if
+      (nil? @username)
+      [login-box @guest-username]
+      [message-box @chat-message])
   ])
