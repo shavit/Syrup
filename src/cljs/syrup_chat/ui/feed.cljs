@@ -1,6 +1,7 @@
 (ns syrup-chat.ui.feed
     (:require [reagent.core :as reagent :refer [atom]]
               [reagent.session :as session]
+              [syrup-chat.socket :as socket]
               ))
 
 
@@ -23,7 +24,6 @@
   (rand-int 9)
   ".jpg?raw=true")})
 
-(def ws-channel (atom nil))
 (def username (atom nil))
 (def guest-username (atom nil))
 (def user (atom guest-user))
@@ -47,6 +47,10 @@
   [params]
 
   (.preventDefault params)
+  (.push
+    (socket/get-channel)
+    "shout"
+    (clj->js {:params {:body @chat-message}}))
 
   (if (nil? @username)
     nil
@@ -141,7 +145,6 @@
 (defn view
   [params]
   "View receiving a state with a channel"
-  (reset! ws-channel params)
 
   [:div {:class "grid"}
     [:div {:class "four columns"}

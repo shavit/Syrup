@@ -6,6 +6,10 @@
 
 (def channel (atom nil))
 
+(defn get-channel
+  []
+  @channel)
+
 (defn channel-connection
   []
   (let [socket (js/Phoenix.Socket. "ws://localhost:4001/socket")]

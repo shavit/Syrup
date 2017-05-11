@@ -7,10 +7,6 @@
               [syrup-chat.ui.feed :as feed]))
 
 ;; -------------------------
-;; State
-(def ws-channel (atom nil))
-
-;; -------------------------
 ;; Views
 
 (defn home-page []
@@ -21,7 +17,7 @@
         [:div {:class "two columns"}
           [:a {:class "brand", :href "/"} "Syrup Chat"]]
         [:div {:class "four columns"} " "]]]
-    (feed/view @ws-channel)
+    (feed/view nil)
   ])
 
 (defn current-page []
@@ -43,7 +39,8 @@
   (reagent/render [current-page] (.getElementById js/document "app")))
 
 (defn init! []
-  (reset! ws-channel (socket/create))
+  (socket/create)
+
   (accountant/configure-navigation!
     {:nav-handler
      (fn [path]
