@@ -1,34 +1,37 @@
 (ns syrup-chat.socket
     (:require [reagent.core :as reagent :refer [atom]]
               [reagent.session :as session]
+              [cljsjs.phoenix]
               ))
 
-(def socket (atom nil))
+(def channel (atom nil))
 
-; socket = new WebSocket("ws://localhost:4001/socket/websocket")
-; msg = {topic: "", event: "", ref: "", payload: {body: "Hi"}}
-; socket.send(JSON.stringify({topic: "chat", event: "phx_join", ref: "", payload: {body: "Hi"}}))
+(defn channel-connection
+  []
+  (let [socket (js/Phoenix.Socket. "ws://localhost:4001/socket")]
+    (.connect socket)
+    (.channel
+      socket
+      "chat:lobby")))
+
+(defn join-channel
+  [ch]
+  (let [join (.join ch)]
+    (.receive join
+      "ok"
+      (fn [x]
+        (.log js/console "Connected")))
+    (.receive join
+      "error"
+      (fn [x]
+        (.log js/console x))))
+  )
 
 (defn create
   []
-  (reset!
-    socket
-    (new js/WebSocket "ws://localhost:4001/socket/websocket"))
-
-  (.addEventListener
-    @socket
-    "open"
-    (fn [x]
-      (.log js/console x)
-      (.log js/console "opened")))
-
-  (.addEventListener
-    @socket
-    "message"
-    (fn [x]
-      (.log js/console x)
-      (.log js/console "received a message")
-      ))
-
-  @socket)
-; (create-websocket)
+  (let [ch (channel-connection)]
+    (reset!
+      channel
+      ch)
+      (join-channel ch))
+  @channel)

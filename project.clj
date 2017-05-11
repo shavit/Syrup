@@ -13,6 +13,7 @@
                  [compojure "1.5.2"]
                  [hiccup "1.0.5"]
                  [yogthos/config "0.8"]
+                 [cljsjs/phoenix "1.2.0-0"]
                  [org.clojure/clojurescript "1.9.521"
                   :scope "provided"]
                  [secretary "1.2.3"]
