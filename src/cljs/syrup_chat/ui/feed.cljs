@@ -139,6 +139,8 @@
 
 (defn view
   [params]
+  "View receiving a state with a channel"
+  (.log js/console params)
 
   [:div {:class "grid"}
     [:div {:class "four columns"}
