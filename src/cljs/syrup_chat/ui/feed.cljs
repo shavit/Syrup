@@ -23,6 +23,7 @@
   (rand-int 9)
   ".jpg?raw=true")})
 
+(def ws-channel (atom nil))
 (def username (atom nil))
 (def guest-username (atom nil))
 (def user (atom guest-user))
@@ -140,7 +141,7 @@
 (defn view
   [params]
   "View receiving a state with a channel"
-  (.log js/console params)
+  (reset! ws-channel params)
 
   [:div {:class "grid"}
     [:div {:class "four columns"}
