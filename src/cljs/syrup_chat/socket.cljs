@@ -7,6 +7,9 @@
 (def state (atom nil))
 (def channel (atom nil))
 
+;
+;   Socket
+;
 (defn get-state
   []
   @state)
@@ -45,3 +48,13 @@
       ch)
       (join-channel ch))
   @channel)
+
+;
+;   Storage
+;
+(defn get-messages
+  []
+  (get
+    (js->clj
+      @state)
+    "chat_messages"))

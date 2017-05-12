@@ -28,7 +28,6 @@
 (def guest-username (atom nil))
 (def user (atom guest-user))
 (def users (atom [guest-user, user-2, user-3, user-4]))
-(def chat-messages (atom []))
 (def chat-message (atom nil))
 
 (defn date-format
@@ -36,7 +35,7 @@
 
   (nth (clojure.string/split
     (js/Date
-      (get params :created))
+      params)
     "GMT") 0))
 
 (defn submit-message
@@ -64,32 +63,19 @@
 
   [:div {:class "chat-message"}
     [:span {:class "avatar"}
-      [:img {:src guest-avatar}]]
+      [:img {:src (get params "picture")}]]
     [:span
-      [:strong {:class "name"} @username]
-      [:span {:class "datetime"} (str " " (date-format params))]]
+      [:strong {:class "name"} (get params "nickname")]
+      [:span {:class "datetime"} (str " " (date-format (get params :created)))]]
     [:div
       (get params :body)]])
-
-(defn load-messages
-  []
-
-  (let [state (socket/get-state)]
-    (reset!
-      chat-messages
-      (get
-        (js->clj
-          (socket/get-state))
-        "chat_messages")))
-
-  (print
-    @chat-messages))
 
 (defn render-messages
   []
 
   [:div {:class "messages-list"}
-    (doall (for [m @chat-messages] ^{:key (get m :id)}
+    (doall (for [m (socket/get-messages)]
+      ^{:key (get m "id")}
       [render-message m]))])
 
 ; #(+ % 1) expands into (fn [a] (+ a 1))
@@ -148,7 +134,7 @@
 (defn view
   [params]
   "View receiving a state with a channel"
-  (load-messages)
+  ; (load-messages)
 
   [:div {:class "grid"}
     [:div {:class "four columns"}
