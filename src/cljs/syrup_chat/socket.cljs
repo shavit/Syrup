@@ -4,7 +4,12 @@
               [cljsjs.phoenix]
               ))
 
+(def state (atom nil))
 (def channel (atom nil))
+
+(defn get-state
+  []
+  @state)
 
 (defn get-channel
   []
@@ -24,6 +29,7 @@
     (.receive join
       "ok"
       (fn [x]
+        (reset! state x)
         (.log js/console "Connected")))
     (.receive join
       "error"

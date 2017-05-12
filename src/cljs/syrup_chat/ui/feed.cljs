@@ -84,6 +84,20 @@
     [:div
       (get params :body)]])
 
+(defn load-messages
+  []
+
+  (let [state (socket/get-state)]
+    (reset!
+      chat-messages
+      (get
+        (js->clj
+          (socket/get-state))
+        "chat_messages")))
+
+  (print
+    @chat-messages))
+
 (defn render-messages
   []
 
@@ -147,6 +161,7 @@
 (defn view
   [params]
   "View receiving a state with a channel"
+  (load-messages)
 
   [:div {:class "grid"}
     [:div {:class "four columns"}
