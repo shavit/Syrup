@@ -66,9 +66,9 @@
       [:img {:src (get params "picture")}]]
     [:span
       [:strong {:class "name"} (get params "nickname")]
-      [:span {:class "datetime"} (str " " (date-format (get params :created)))]]
+      [:span {:class "datetime"} (str " " (date-format (get params "created")))]]
     [:div
-      (get params :body)]])
+      (get params "body")]])
 
 (defn render-messages
   []
@@ -112,7 +112,11 @@
 
   (reset!
     username
-      @guest-username))
+      @guest-username)
+
+  (reset!
+    user
+      {:id (rand-int 100), :name @username, :avatar guest-avatar}))
 
 (defn set-guest-username
   [params]
