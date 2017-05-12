@@ -15,10 +15,6 @@
   "https://github.com/shavit/Syrup/blob/master/resources/public/img/avatar-"
   (+ 1 (rand-int 9))
   ".jpg?raw=true")})
-(def user-3 {:id 3, :name "User 3", :avatar (str
-  "https://github.com/shavit/Syrup/blob/master/resources/public/img/avatar-"
-  (+ 1 (rand-int 9))
-  ".jpg?raw=true")})
 
 (def username (atom nil))
 (def guest-username (atom nil))
