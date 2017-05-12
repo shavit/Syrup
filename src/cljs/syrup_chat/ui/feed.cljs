@@ -9,7 +9,7 @@
   "https://github.com/shavit/Syrup/blob/master/resources/public/img/avatar-"
   (+ 1 (rand-int 9))
   ".jpg?raw=true"))
-(def guest-user {:id nil, :name "Guest (you)", :avatar guest-avatar})
+(def guest-user {:id (rand-int 100), :name "Guest (you)", :avatar guest-avatar})
 
 (def user-2 {:id 2, :name "User 2", :avatar (str
   "https://github.com/shavit/Syrup/blob/master/resources/public/img/avatar-"
@@ -50,7 +50,9 @@
   (.push
     (socket/get-channel)
     "shout"
-    (clj->js {:params {:body @chat-message}}))
+    (clj->js {:params
+      {:user @user,
+        :body @chat-message}}))
 
   (if (nil? @username)
     nil
