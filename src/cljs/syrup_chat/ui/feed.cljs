@@ -7,21 +7,21 @@
 
 (def guest-avatar (str
   "https://github.com/shavit/Syrup/blob/master/resources/public/img/avatar-"
-  (rand-int 9)
+  (+ 1 (rand-int 9))
   ".jpg?raw=true"))
 (def guest-user {:id nil, :name "Guest (you)", :avatar guest-avatar})
 
 (def user-2 {:id 2, :name "User 2", :avatar (str
   "https://github.com/shavit/Syrup/blob/master/resources/public/img/avatar-"
-  (rand-int 9)
+  (+ 1 (rand-int 9))
   ".jpg?raw=true")})
 (def user-3 {:id 3, :name "User 3", :avatar (str
   "https://github.com/shavit/Syrup/blob/master/resources/public/img/avatar-"
-  (rand-int 9)
+  (+ 1 (rand-int 9))
   ".jpg?raw=true")})
 (def user-4 {:id 4, :name "User 4", :avatar (str
   "https://github.com/shavit/Syrup/blob/master/resources/public/img/avatar-"
-  (rand-int 9)
+  (+ 1 (rand-int 9))
   ".jpg?raw=true")})
 
 (def username (atom nil))
