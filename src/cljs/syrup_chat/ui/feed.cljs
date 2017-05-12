@@ -103,7 +103,7 @@
   [params]
   [:div
     [:span {:class "avatar"}
-      [:img {:src (get params :picture)}]]
+      [:img {:src (get params :avatar)}]]
     [:strong (get params :name)]
     ])
 
