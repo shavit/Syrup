@@ -39,10 +39,6 @@
       (get params :created))
     "GMT") 0))
 
-(defn i-key
-  [params]
-  (str (count @username) (count (get params :body)) (count @chat-messages)))
-
 (defn submit-message
   [params]
 
@@ -53,15 +49,6 @@
     (clj->js {:params
       {:user @user,
         :body @chat-message}}))
-
-  (if (nil? @username)
-    nil
-    (swap!
-      chat-messages
-        conj {:id (i-key params),
-          :from @username,
-          :body @chat-message,
-          :created (.now js/Date)}))
 
   (reset! chat-message ""))
 
