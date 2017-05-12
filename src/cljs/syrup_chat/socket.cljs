@@ -26,14 +26,43 @@
       socket
       "chat:lobby")))
 
+(defn format-message
+  [m]
+  {"id" (get m "id"),
+  "nickname" (get m "nickname"),
+  "picture" (get m "picture"),
+  "body" (get m "body"),
+  "created" (get m "created")})
+
+(defn channel-handler
+  [ch]
+
+  (.on
+    ch
+    "shout"
+    (fn [x]
+      (let [m (js->clj x)]
+        (let [new-message
+          (format-message m)]
+            (swap!
+              state
+              update-in
+              ["chat_messages"]
+              conj
+              new-message)
+          )))
+    )
+  )
+
 (defn join-channel
   [ch]
   (let [join (.join ch)]
     (.receive join
       "ok"
       (fn [x]
-        (reset! state x)
+        (reset! state (js->clj x))
         (.log js/console "Connected")))
+
     (.receive join
       "error"
       (fn [x]
@@ -43,6 +72,7 @@
 (defn create
   []
   (let [ch (channel-connection)]
+    (channel-handler ch)
     (reset!
       channel
       ch)
@@ -55,6 +85,5 @@
 (defn get-messages
   []
   (get
-    (js->clj
-      @state)
+    @state
     "chat_messages"))

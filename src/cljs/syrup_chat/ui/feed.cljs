@@ -75,7 +75,7 @@
 
   [:div {:class "messages-list"}
     (doall (for [m (socket/get-messages)]
-      ^{:key (get m "id")}
+      ^{:key (str (get m "id") (count (socket/get-messages)))}
       [render-message m]))])
 
 ; #(+ % 1) expands into (fn [a] (+ a 1))
