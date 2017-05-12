@@ -27,7 +27,7 @@
 (def username (atom nil))
 (def guest-username (atom nil))
 (def user (atom guest-user))
-(def users (atom [guest-user, user-2, user-3, user-4]))
+(def users (atom [@user, user-2, user-3, user-4]))
 (def chat-message (atom nil))
 
 (defn date-format
@@ -107,16 +107,15 @@
 
 (defn submit-username
   [params]
-
   (.preventDefault params)
-
-  (reset!
-    username
-      @guest-username)
-
+  (reset! username @guest-username)
   (reset!
     user
-      {:id (rand-int 100), :name @username, :avatar guest-avatar}))
+      {:id (rand-int 100),
+        :name @username,
+        :avatar guest-avatar})
+  (reset! users [@user, user-2, user-3, user-4])
+  )
 
 (defn set-guest-username
   [params]
