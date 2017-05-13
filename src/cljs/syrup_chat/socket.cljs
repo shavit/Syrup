@@ -87,3 +87,9 @@
   (get
     @state
     "chat_messages"))
+
+(defn get-users
+  []
+  (get
+    @state
+    "users"))
