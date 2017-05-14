@@ -93,7 +93,7 @@
   [:div {:class "descriptive details"}
     [:div {:class "user-list"}
       [:ul
-        (doall (for [u @users]
+        (doall (for [u (socket/get-users)]
           ^{:key (str (count (get u :name)) (get u :id) (get u :name))}
           [:li [render-user u]]))]]])
 
