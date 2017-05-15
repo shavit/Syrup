@@ -134,6 +134,8 @@
   [:div {:class "grid"}
     [:div {:class "four columns"}
       [:div
+        [:video]]
+      [:div
         [render-user-list]]]
     [:div {:class "eight columns"}
       [:div {:class "messages-feed"}
