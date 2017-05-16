@@ -90,7 +90,6 @@
 
 (defn get-users
   []
-  "Get the online users"
   ; (get
   ;   @state
   ;   "users")

@@ -134,7 +134,7 @@
   [:div {:class "grid"}
     [:div {:class "four columns"}
       [:div
-        [:video {:autoplay true}]
+        [:video {:autoplay true, :controls true}]
         [:strong "Live Stream"]]
       [:div
         [render-user-list]]]
