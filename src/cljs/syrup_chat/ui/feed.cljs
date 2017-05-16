@@ -135,7 +135,7 @@
     [:div {:class "four columns"}
       [:div
         [:video {:autoplay true}]
-        [:strong "Live"]]
+        [:strong "Live Stream"]]
       [:div
         [render-user-list]]]
     [:div {:class "eight columns"}
