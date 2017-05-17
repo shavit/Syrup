@@ -99,6 +99,7 @@
 
 (defn submit-username
   [params]
+
   (.preventDefault params)
   (reset! username @guest-username)
   (reset!
