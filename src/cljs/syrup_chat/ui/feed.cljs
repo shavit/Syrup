@@ -106,7 +106,7 @@
       {:id (rand-int 100),
         :name @username,
         :avatar guest-avatar})
-  (reset! users [@user, user-2, user-3, user-4])
+  (reset! users (conj @users @user))
   )
 
 (defn set-guest-username
