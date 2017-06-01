@@ -19,7 +19,7 @@
 (def username (atom nil))
 (def guest-username (atom nil))
 (def user (atom guest-user))
-(def users (atom [@user, user-2, user-2, user-2, user-2]))
+(def users (atom [@user, user-2, user-2, user-2, user-2, user-2, user-2]))
 (def chat-message (atom nil))
 
 (defn date-format
