@@ -16,7 +16,7 @@
   (+ 1 (rand-int 9))
   ".jpg?raw=true")})
 
-(def user-2 {:id 2, :name "User 3", :avatar (str
+(def user-3 {:id 2, :name "User 3", :avatar (str
   "https://github.com/shavit/Syrup/blob/master/resources/public/img/avatar-"
   (+ 1 (rand-int 9))
   ".jpg?raw=true")})
@@ -81,7 +81,8 @@
   [:div {:class "message-box"}
     [:form {:on-submit submit-message}
       [:input {:type "text",
-        :value params, :on-change set-chat-message, :max-length 140}]]
+        :value params, :on-change set-chat-message, :max-length 140}]
+      [:div (str (count @chat-message) "/140")]]
     ]
   )
 
