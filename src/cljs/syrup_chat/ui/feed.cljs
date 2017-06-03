@@ -97,8 +97,6 @@
 (defn render-user-list
   []
   [:div {:class "descriptive details"}
-    [:ul
-      [:li "Hi"]]
     [:div {:class "user-list"}
       [:ul
         (doall (for [u (socket/get-users)]
@@ -145,9 +143,7 @@
       [:div
         [:video {:autoPlay true, :controls true}]
         [:strong "Live Stream"]]
-      [:div
-        [:strong "Users"]
-        (render-user-list)]]
+      (render-user-list)]
     [:div {:class "eight columns"}
       [:div {:class "messages-feed"}
         (render-messages)
