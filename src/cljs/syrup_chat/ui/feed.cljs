@@ -90,17 +90,19 @@
   [params]
   [:div
     [:span {:class "avatar"}
-      [:img {:src (get params :avatar)}]]
-    [:strong (get params :name)]
+      [:img {:src (get params "avatar")}]]
+    [:strong (get params "name")]
     ])
 
 (defn render-user-list
   []
   [:div {:class "descriptive details"}
+    [:ul
+      [:li "Hi"]]
     [:div {:class "user-list"}
       [:ul
         (doall (for [u (socket/get-users)]
-          ^{:key (str (count (get u :name)) (get u :id) (get u :name))}
+          ^{:key (get u "id")}
           [:li [render-user u]]))]]])
 
 (defn submit-username
@@ -144,7 +146,8 @@
         [:video {:autoPlay true, :controls true}]
         [:strong "Live Stream"]]
       [:div
-        [render-user-list]]]
+        [:strong "Users"]
+        (render-user-list)]]
     [:div {:class "eight columns"}
       [:div {:class "messages-feed"}
         (render-messages)
