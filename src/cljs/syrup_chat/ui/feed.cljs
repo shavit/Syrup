@@ -38,12 +38,15 @@
 
   (reset! chat-message ""))
 
+(def sanitize-message-pattern (re-pattern "[a-zA-Z0-9-'\"@!\\?\\. ()*_,]+"))
+(defn sanitize-message [params] (re-find sanitize-message-pattern params))
 (defn set-chat-message
   [params]
 
   (reset!
     chat-message
-      (-> params .-target .-value)))
+      (sanitize-message
+        (-> params .-target .-value))))
 
 (defn render-message
   [params]
@@ -106,12 +109,15 @@
   (reset! users (conj @users @user))
   )
 
+(def sanitize-username-pattern (re-pattern "[a-zA-Z0-9-_]+"))
+(defn sanitize-username [params] (re-find sanitize-username-pattern params))
 (defn set-guest-username
   [params]
 
   (reset!
     guest-username
-      (-> params .-target .-value)))
+      (sanitize-username
+        (-> params .-target .-value))))
 
 (defn login-box
   [params]
